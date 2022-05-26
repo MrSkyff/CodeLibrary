@@ -1,0 +1,18 @@
+﻿@model ProjectHouse.Models.MyTime.TimeRecord
+@{
+}
+
+<form asp-controller="MyTime" asp-action="RunningTimer" method="post">
+
+
+    <div>
+
+        @Html.DropDownListFor(x=> x.ProjectId, ViewBag.Projects as IEnumerable<SelectListItem>)
+
+    </div>
+
+
+
+    <div><input asp-for="Notes" placeholder="Enter your note" /></div>
+    <input type="submit" value="Start timer" />
+</form>

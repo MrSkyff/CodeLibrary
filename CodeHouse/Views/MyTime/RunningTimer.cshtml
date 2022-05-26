@@ -1,0 +1,67 @@
+﻿@model ProjectHouse.Models.MyTime.TimeRecord
+@{
+    var time = DateTime.Now - Model.StartTime;
+    int s = time.Seconds;
+    int m = time.Minutes;
+    int h = time.Hours;
+}
+<h1>Project: @Model.ProjectId</h1>
+<p>Started: @Model.StartTime</p>
+
+@if (Model.EndTime != null)
+{
+    <p>Finished: @Model.EndTime</p>
+}
+@if (Model.EndTime != null)
+{
+    var totalTime = (DateTime)Model.EndTime - (DateTime)Model.StartTime;
+    <h2>@if (@totalTime.Hours > 0) {@totalTime.Hours <hours>hours</hours>}  @totalTime.Minutes minutes </h2>
+}
+@if (Model.EndTime == null)
+{
+    <form method="post">
+        <h2><time>00:00:00</time></h2>
+        <input type="hidden" asp-for="StartTime" />
+        <input type="hidden" asp-for="EndTime" />
+        <label>note:</label>
+        <div><textarea asp-for="Notes"></textarea></div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ProjectId" />
+        <input type="submit" value="Stop timer">
+    </form>
+
+    <script>
+        var h1 = document.getElementsByTagName('h2')[0];
+        var sec = '@s';
+        var min = '@m';
+        var hrs = '@h';
+        var t;
+
+        function tick(){
+            sec++;
+            if (sec >= 60) {
+                sec = 0;
+                min++;
+                if (min >= 60) {
+                    min = 0;
+                    hrs++;
+                }
+            }
+        }
+        function add() {
+            tick();
+            h1.textContent = (hrs > 9 ? hrs : "0" + hrs)
+                     + ":" + (min > 9 ? min : "0" + min)
+                     + ":" + (sec > 9 ? sec : "0" + sec);
+            timer();
+        }
+        function timer() {
+            t = setTimeout(add, 1000);
+        }
+        timer();
+    </script>
+
+}
+
+
+

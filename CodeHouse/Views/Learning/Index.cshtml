@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ProjectHouse.Models.Learning.Groupe>
+@using ProjectHouse.Models.Learning
+@{
+    var homeWorks = ViewBag.HomeWorks as IEnumerable<HomeWork>;
+}
+<h1>Home Work Groupes</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Priority</th>
+            <th scope="col">Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">Percent</th>
+            <th scope="col">Date</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>@item.Position</td>
+                <td scope="row"><a asp-controller="Learning" asp-action="HomeWorkByGroupe" asp-route-id="@item.Id">@item.Name</a> </td>
+
+                <td>
+
+                    @if (@item.Status != GroupeStatus.Completed)
+                    {
+                        <text>@homeWorks.Count(d => d.GroupeId == item.Id && d.Status == HomeWorkStatus.Completed)</text>
+                        <text> / </text>
+                        <text>@homeWorks.Count(d => d.GroupeId == item.Id)</text>
+                    }
+                    else
+                    {
+                        @item.Status
+                    }
+                </td>
+                @{
+                    double result = 0;
+                    double one = homeWorks.Count(d => d.GroupeId == item.Id);
+                    double two = homeWorks.Count(d => d.GroupeId == item.Id && d.Status == HomeWorkStatus.Completed);
+                    if (one > 0 && two > 0) { result = 100 / (one / two); }
+                }
+                <td>@Math.Round(result,2)%</td>
+                <td>@item.Date </td>
+                <td><a asp-controller="Learning" asp-action="AddEditGroupe" asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path">Edit</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

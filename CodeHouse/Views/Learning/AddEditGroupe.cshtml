@@ -1,0 +1,23 @@
+﻿@model ProjectHouse.Models.Learning.Groupe
+@using ProjectHouse.Models.Learning
+
+<form asp-controller="Learning" asp-action="AddEditGroupe" method="post">
+
+    <div>@Html.HiddenFor(d => d.Date)</div>
+
+    <div>
+        @Html.LabelFor(t => t.Name)
+        @Html.EditorFor(t => t.Name)
+    </div>
+    <div>
+        @Html.LabelFor(t => t.Position)
+        @Html.EditorFor(t => t.Position)
+    </div>
+    <div>
+        <label asp-for="Status">Groupe status: </label>
+        <select asp-for="Status" asp-items="Html.GetEnumSelectList<GroupeStatus>()"></select>
+    </div>
+    <div>
+        <input type="submit" value="@(Model != null ? "Save" : "Add")" />
+    </div>
+</form>

@@ -1,0 +1,20 @@
+﻿@model ProjectHouse.Models.Project.Task
+
+
+
+<h1><b>@ViewBag.ProjectName</b></h1>
+<hr />
+<p class="font-monospace">
+    <b>Path: </b>
+    <a href="/">MainPage</a> /
+    <a href="/Project">Projects List</a> /
+    <a href="/Project/ProjectMain/@ViewBag.ProjectId">@ViewBag.ProjectName</a> /
+    <a href="/Project/TaskCategory/@ViewBag.ProjectId">Tasks Categories</a> /
+    <a href="/Project/TaskList/@ViewBag.CategoryId">@ViewBag.CategoryName</a> /
+    <a href="/Project/TaskView/@Model.Id">@Model.Name</a>
+</p>
+<hr />
+<h2>@Model.Name</h2>
+<p>@Html.Raw(Model.Description)</p>
+<p>@Html.Raw(Model.Text)</p>
+<a asp-controller="Project" asp-action="AddEdittask" asp-route-id="@Model.Id" asp-route-returnUrl="@Context.Request.Path"> Edit task</a>

@@ -1,0 +1,29 @@
+﻿@model Category
+@{
+    var categories = ViewBag.Categories as IEnumerable<Category>;
+}
+
+<form asp-action="EditCategory" asp-controller="Admin">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"><b>Title</b></label>
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"><b>Short Text</b></label>
+        <textarea rows="10" placeholder="Введите сообщение" type="text" asp-for="Description" class="form-control"></textarea>
+    </div>
+
+@*    <select asp-for="ParentCategoryId">
+        <option value="null">No parent category</option>
+        @foreach (var categoryList in categories)
+        {
+            @if (categoryList.ParentCategoryId == null)
+            {
+                <option value="@categoryList.Id">@categoryList.Name</option>
+}
+        }
+    </select>*@
+    <div class="form-group">
+        <input type="submit" value="Отправить" class="btn btn-default" />
+    </div>
+</form>

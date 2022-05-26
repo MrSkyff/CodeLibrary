@@ -1,0 +1,40 @@
+﻿@model ProjectHouse.ViewModels.Project.ProjectListViewModel
+
+<h1><b>Projects List</b></h1>
+<hr />
+<p class="font-monospace">
+    <b>Path: </b>
+    <a href="/">MainPage</a> /
+    <a href="/Project">Projects List</a> /
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Position</th>
+            <th scope="col">Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">Tasks</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.Projects)
+        {
+            <tr>
+                <td>@item.Position</td>
+                <td><a asp-controller="Project" asp-action="ProjectMain" asp-route-id="@item.Id">@item.Name</a></td>
+                <td>NO DATA</td>
+                <td> @Model.Tasks.Where(x=>x.ProjectId == item.Id).Count() </td>
+                
+                <td><a asp-controller="Project" asp-action="AddEditProject" asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path">Edit</a></td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
+
+
+
+<div><a asp-controller="Project" asp-action="AddEditProject" asp-route-returnUrl="@Context.Request.Path">Add Project</a></div>

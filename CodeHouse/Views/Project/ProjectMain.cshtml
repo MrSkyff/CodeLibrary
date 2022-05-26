@@ -1,0 +1,103 @@
+﻿@model ProjectHouse.ViewModels.Project.ProjectMainViewModel
+@{
+    int tasksCount = 0;
+    int tasksCountLimit = 20;
+}
+
+<h1><b>@Model.Project.Name</b></h1>
+<hr />
+<p class="font-monospace">
+    <b>Path: </b>
+    <a href="/">MainPage</a> /
+    <a href="/Project">Projects List</a> /
+    <a href="/Project/ProjectMain/@Model.Project.Name">@Model.Project.Name</a>
+</p>
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Articles:</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.Raw(Model.Project.Description)
+            </td>
+            <td>
+                @foreach (var item in Model.ProjectArticleList)
+                {
+                    <div><a asp-controller="Project" asp-action="Article" asp-route-id="@item.Id">@item.Title</a></div>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<a asp-controller="Project" asp-action="AddEditProject" asp-route-id="@Model.Project.Id" asp-route-returnUrl="@Context.Request.Path">Edit project</a> |
+<a asp-controller="Project" asp-action="AddEditArticle" asp-route-id="0" asp-route-id2="@Model.Project.Id" asp-route-returnUrl="@Context.Request.Path">Add article</a>
+<hr />
+<div><b>MENU: </b> <a asp-controller="Project" asp-action="TaskCategory" asp-route-id="@Model.Project.Id">Tasks</a></div>
+<hr />
+<h3>Last 20 tasks</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Position</th>
+            <th scope="col">Type</th>
+            <th scope="col">Name</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Status</th>
+            <th scope="col">Deadline</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ProjectTaskList)
+        {
+            <tr>
+                <td>@item.Position</td>
+                <td>@item.TypeOfTask</td>
+                <td><a asp-controller="Project" asp-action="TaskView" asp-route-id="@item.Id">@item.Name</a></td>
+                @if (item.TaskImportance == ProjectHouse.Models.Project.TaskImportance.Critical)
+                {
+                    <td class="text-danger"><b>@item.TaskImportance</b></td>
+                }
+                else if (item.TaskImportance == ProjectHouse.Models.Project.TaskImportance.Hight)
+                {
+                    <td class="text-danger">@item.TaskImportance</td>
+                }
+                else if (item.TaskImportance == ProjectHouse.Models.Project.TaskImportance.Normal)
+                {
+                    <td class="text-success">@item.TaskImportance</td>
+                }
+                else if (item.TaskImportance == ProjectHouse.Models.Project.TaskImportance.Low)
+                {
+                    <td class="text-muted">@item.TaskImportance</td>
+                }
+                @if (item.TaskStatus == ProjectHouse.Models.Project.TaskStatus.Active)
+                {
+                    <td class="text-primary">@item.TaskStatus</td>
+                }
+                else if (item.TaskStatus == ProjectHouse.Models.Project.TaskStatus.InActive)
+                {
+                    <td class="text-muted">@item.TaskStatus</td>
+                }
+                else if (item.TaskStatus == ProjectHouse.Models.Project.TaskStatus.Freezed)
+                {
+                    <td class="text-danger">@item.TaskStatus</td>
+                }
+                else if (item.TaskStatus == ProjectHouse.Models.Project.TaskStatus.Completed)
+                {
+                    <td class="text-success">@item.TaskStatus</td>
+                }
+                <td>@item.DeadLine.ToString("dd/MM/yyyy")</td>
+                <td><a asp-controller="Project" asp-action="AddEditTask" asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path">Edit</a></td>
+            </tr>
+            tasksCount++;
+            if (tasksCount == tasksCountLimit) { break; }
+        }
+    </tbody>
+</table>

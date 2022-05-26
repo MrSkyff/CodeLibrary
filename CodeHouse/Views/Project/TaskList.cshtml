@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ProjectHouse.Models.Project.Task>
+
+<h1><b>@ViewBag.ProjectName</b></h1>
+<hr />
+<p class="font-monospace">
+    <b>Path: </b>
+    <a href="/">MainPage</a> /
+    <a href="/Project">Projects List</a> /
+    <a href="/Project/ProjectMain/@ViewBag.ProjectId">@ViewBag.ProjectName</a> /
+    <a href="/Project/TaskCategory/@ViewBag.ProjectId">Tasks Categories</a> /
+    <a href="/Project/TaskList/@ViewBag.CategoryId">@ViewBag.CategoryName</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Position</th>
+            <th scope="col">Type</th>
+            <th scope="col">Name</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Status</th>
+            <th scope="col">Deadline</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Position</td>
+                <td>@item.TypeOfTask</td>
+                <td><a asp-controller="Project" asp-action="TaskView" asp-route-id="@item.Id">@item.Name</a></td>
+                @if (item.TaskImportance == ProjectHouse.Models.Project.TaskImportance.Critical)
+                {
+                    <td class="text-danger"><b>@item.TaskImportance</b></td>
+                }
+                else if (item.TaskImportance == ProjectHouse.Models.Project.TaskImportance.Hight)
+                {
+                    <td class="text-danger">@item.TaskImportance</td>
+                }
+                else if (item.TaskImportance == ProjectHouse.Models.Project.TaskImportance.Normal)
+                {
+                    <td class="text-success">@item.TaskImportance</td>
+                }
+                else if (item.TaskImportance == ProjectHouse.Models.Project.TaskImportance.Low)
+                {
+                    <td class="text-muted">@item.TaskImportance</td>
+                }
+                @if (item.TaskStatus == ProjectHouse.Models.Project.TaskStatus.Active)
+                {
+                    <td class="text-primary">@item.TaskStatus</td>
+                }
+                else if (item.TaskStatus == ProjectHouse.Models.Project.TaskStatus.InActive)
+                {
+                    <td class="text-muted">@item.TaskStatus</td>
+                }
+                else if (item.TaskStatus == ProjectHouse.Models.Project.TaskStatus.Freezed)
+                {
+                    <td class="text-danger">@item.TaskStatus</td>
+                }
+                else if (item.TaskStatus == ProjectHouse.Models.Project.TaskStatus.Completed)
+                {
+                    <td class="text-success">@item.TaskStatus</td>
+                }
+                <td>@item.DeadLine.ToString("dd/MM/yyyy")</td>
+                <td><a asp-controller="Project" asp-action="AddEditTask" asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path">Edit</a></td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
+<div><a asp-controller="Project" asp-action="AddEditTask" asp-route-id="0" asp-route-id2="@ViewBag.ProjectId" asp-route-id3="@ViewBag.CategoryId" asp-route-returnUrl="@Context.Request.Path">Add new task</a></div>

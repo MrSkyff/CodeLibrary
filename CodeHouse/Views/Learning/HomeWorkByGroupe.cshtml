@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ProjectHouse.Models.Learning.HomeWork>
+@using ProjectHouse.Models.Learning
+
+<h1>@ViewBag.GroupName</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Priority</th>
+            <th scope="col">Title</th>
+            <th scope="col">Status</th>
+            <th scope="col">Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Position</td>
+                <td><a asp-controller="Learning" asp-action="HomeWork" asp-route-id="@item.Id">@item.Title</a></td>
+
+                @if ((int)item.Status == 1)
+                {
+                    <td class="text-primary">@Html.DisplayFor(model => item.Status)</td>
+                }
+                else if ((int)item.Status == 2)
+                {
+                    <td class="text-warning">@Html.DisplayFor(model => item.Status)</td>
+                }
+                else if ((int)item.Status == 3)
+                {
+                    <td class="text-danger">@Html.DisplayFor(model => item.Status)</td>
+                }
+                else if ((int)item.Status == 4)
+                {
+                    <td class="text-secondary">@Html.DisplayFor(model => item.Status)</td>
+                }
+                else if ((int)item.Status == 5)
+                {
+                    <td class="text-success">@Html.DisplayFor(model => item.Status)</td>
+                }
+
+                <td>@item.Date</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Learning" asp-action="AddEditHomeWork" asp-route-returnUrl="@Context.Request.Path">Add HomeWork</a>

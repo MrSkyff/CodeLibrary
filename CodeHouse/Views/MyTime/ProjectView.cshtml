@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ProjectHouse.Models.MyTime.TimeRecord>
+
+
+
+@foreach (var item in Model)
+{
+    var duration = item.EndTime - item.StartTime;
+
+    <hr>
+    <div>@item.Notes</div>
+    <div>
+        @item.StartTime -
+        @if (@item.EndTime == null)
+        {
+            <a asp-controller="MyTime" asp-action="RunningTimer" asp-route-id="@item.Id">Not finished!</a>
+        }
+        else
+        {
+            @item.EndTime
+            <div>
+                Duration:
+                @if (duration.Value.Hours > 0)
+                {
+                    @duration.Value.Hours <span>hours</span>
+                }
+                @duration.Value.Minutes <span>minutes</span>
+            </div>
+
+        }
+
+    </div>
+}

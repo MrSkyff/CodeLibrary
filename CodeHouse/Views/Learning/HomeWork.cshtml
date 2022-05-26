@@ -1,0 +1,25 @@
+﻿@model ProjectHouse.Models.Learning.HomeWork
+<link rel="stylesheet" href="~/css/enlighterjs.min.css" />
+<h1>@Model.Title</h1>
+<p>
+    
+    <div>@Html.Raw(Model.Text)</div>
+    <div>@Model.Date - @Html.DisplayFor(model => Model.Status) - <a asp-controller="Learning" asp-action="AddEditHomeWork" asp-route-id="@Model.Id" asp-route-returnUrl="@Context.Request.Path">Edit</a></div>
+</p>
+
+
+    <!-- EnlighterJS -->
+    <script type="text/javascript" src="~/css/enlighterjs.min.js"></script>
+
+    <!-- Init Code -->
+    <script type="text/javascript">
+        // - highlight all pre + code tags (CSS3 selectors)
+        // - use javascript as default language
+        // - use theme "enlighter" as default theme
+        // - replace tabs with 2 spaces
+        EnlighterJS.init('pre', 'code', {
+                language : 'C#',
+                theme: 'enlighter',
+                indent : 2
+        });
+    </script>

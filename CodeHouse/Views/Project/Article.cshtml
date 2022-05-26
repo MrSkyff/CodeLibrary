@@ -1,0 +1,14 @@
+﻿@model ProjectHouse.Models.Project.ProjectArticle
+
+<h1>@Model.Title</h1>
+<hr />
+<p class="font-monospace">
+    <b>Path: </b>
+    <a href="/">MainPage</a> /
+    <a href="/Project">Projects List</a> /
+    <a href="/Project/ProjectMain/@ViewBag.Project.Id">@ViewBag.Project.Name</a> / 
+    <a href="/Project/Article/@Model.Id">@Model.Title</a>
+</p>
+<hr />
+<div>@Html.Raw(Model.Text)</div>
+<div><a asp-controller="Project" asp-action="AddEditArticle" asp-route-id="@Model.Id" asp-route-id2="@Model.ProjectId" asp-route-returnUrl="@Context.Request.Path">Edit</a></div>

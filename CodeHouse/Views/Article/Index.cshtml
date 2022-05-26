@@ -1,0 +1,16 @@
+﻿@model IEnumerable<ProjectHouse.Models.Article.Article>
+
+@foreach (var item in Model)
+{
+
+    <div>
+        <b>
+            <a asp-controller="article" asp-action="read" asp-route-id="@item.Id">@item.Title</a> @if (User.IsInRole("admin"))
+            {<a asp-action="Edit" asp-controller="Article" asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path">Edit</a>}
+        </b>
+    </div>
+    <p class="text-break">
+        @Html.Raw(item.ShortText)
+    </p>
+    <br />
+}

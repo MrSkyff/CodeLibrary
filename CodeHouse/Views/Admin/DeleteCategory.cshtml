@@ -1,0 +1,8 @@
+﻿@model Category
+
+<form asp-action="DeleteCategory" asp-controller="Admin">
+    <h2>Вы точно хотите удалить категорию @Model.Name ?</h2>
+    <div class="form-group">
+        <input type="submit" value="Да удалить категорию!" class="btn btn-default" />
+    </div>
+</form>

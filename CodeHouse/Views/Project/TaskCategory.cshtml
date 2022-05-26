@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ProjectHouse.Models.Project.TaskCategory>
+        @{
+    var sortedModel = Model.OrderByDescending(x => x.Position).ToList();
+}
+
+
+<h1><b>@ViewBag.ProjectName</b></h1>
+<hr />
+<p class="font-monospace">
+    <b>Path: </b>
+    <a href="/">MainPage</a> /
+    <a href="/Project">Projects List</a> /
+    <a href="/Project/ProjectMain/@ViewBag.ProjectId">@ViewBag.ProjectName</a> /
+    <a href="/Project/TaskCategory/@ViewBag.ProjectId">Tasks Categories</a> /
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Position</th>
+            <th scope="col">Name</th>
+            <th scope="col">Tasks</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in sortedModel)
+        {
+            <tr>
+                <td>@item.Position</td>
+                <td><a asp-controller="Project" asp-action="TaskList" asp-route-id="@item.Id"> @item.Name</a></td>
+                <td>0/0 (Not working)</td>
+                <td><a asp-controller="Project" asp-action="AddEditTaskCategory" asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path">Edit</a></td>               
+            </tr>
+        }
+    </tbody>
+</table>
+<div><a asp-controller="Project" asp-action="AddEditTaskCategory" asp-route-id="0" asp-route-id2="@ViewBag.ProjectId" asp-route-returnUrl="@Context.Request.Path">Add new category</a></div>

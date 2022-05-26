@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Category>
+@{
+    var article = ViewBag.ArticleData as IEnumerable<Article>;
+
+}
+
+
+
+@foreach (var item in Model)
+{
+    if (item.ParentId == null)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th> <a asp-controller="Category" asp-action="Category" asp-route-id="@item.Id">@item.Name</a> </th>
+                    <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th><th></th>
+                    </th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                @foreach (var item2 in Model.Where(x => x.ParentId == item.Id))
+                {
+                    <tr>
+                        <th scope="row">
+                            <a asp-controller="Category" asp-action="Category" asp-route-id="@item2.Id">@item2.Name</a>
+                        </th>
+
+                        @foreach (var item3 in Model.Where(x3 => x3.ParentId == item2.Id))
+                        {
+                            <td>
+
+                                <a asp-controller="Category" asp-action="Category" asp-route-id="@item3.Id">@item3.Name</a>
+                            </td>
+                            <td></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+
+
+
+

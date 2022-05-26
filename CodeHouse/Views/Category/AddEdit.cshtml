@@ -1,0 +1,32 @@
+﻿@model ProjectHouse.Models.Article.Category
+@{
+    var categories = ViewBag.Categories as IEnumerable<Category>;
+}
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"><b>Title</b></label>
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"><b>Short Text</b></label>
+        <textarea rows="10" placeholder="Enter massage" type="text" asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <select asp-for="ParentId">
+        <option value="null">No parent category</option>
+        @foreach (var categoryList in categories)
+        {
+            @*@if (categoryList.ParentId == null)
+            {*@
+                <option value="@categoryList.Id">@categoryList.Name</option>
+            @*}*@
+        }
+    </select>
+
+    <div class="form-group">
+        <input type="submit" value="Send" class="btn btn-default" />
+    </div>
+
+
+</form>

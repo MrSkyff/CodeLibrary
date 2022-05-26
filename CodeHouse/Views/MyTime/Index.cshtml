@@ -1,0 +1,149 @@
+﻿@model ProjectHouse.ViewModels.MyTime.IndexListViewModel
+@using ProjectHouse.Models.MyTime
+
+@{
+
+
+    var currentDay = Model.TimeRecordList.Where(x => x.StartTime.DayOfYear == DateTime.Now.DayOfYear && x.EndTime != null);
+    // x => x.StartTime.EndTime and StartTime.value.EndTime do not work because it can have a null value!
+    TimeSpan currentDayStat = default;
+    TimeSpan last24hoursAtAll = default;
+    TimeSpan last7daysAtAll = default;
+    TimeSpan last30daysAtAll = default;
+    TimeSpan time24 = new TimeSpan(24, 00, 0);
+    TimeSpan time7D = new TimeSpan(168, 00, 0);
+    TimeSpan time30D = new TimeSpan(720, 00, 0);
+}
+
+@foreach (var item in currentDay)
+{
+    if (item.EndTime != null)
+    {
+        currentDayStat += (DateTime)item.EndTime - (DateTime)item.StartTime;
+    }
+}
+@foreach (var item2 in Model.TimeRecordList)
+{
+
+    if (item2.EndTime != null)
+    {
+        if (DateTime.Now - item2.StartTime < time24)
+        {
+            last24hoursAtAll += (DateTime)item2.EndTime - (DateTime)item2.StartTime;
+        }
+    }
+
+    if (item2.EndTime != null)
+    {
+        if (DateTime.Now - item2.StartTime < time7D)
+        {
+            last7daysAtAll += (DateTime)item2.EndTime - (DateTime)item2.StartTime;
+        }
+    }
+    if (item2.EndTime != null)
+    {
+        if (DateTime.Now - item2.StartTime < time30D)
+        {
+            last30daysAtAll += (DateTime)item2.EndTime - (DateTime)item2.StartTime;
+        }
+    }
+}
+
+
+
+<h1><b>My Time</b></h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Project</th>
+            <th scope="col">Today</th>
+            <th scope="col">24 Hours</th>
+            <th scope="col">7 Days</th>
+            <th scope="col">30 Days</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr class="table-info">
+            <th>All projects</th>
+            <td>
+    @if (currentDayStat.Hours > 0)
+    {
+        @currentDayStat.Hours
+        <span>hours</span>
+    }
+    @currentDayStat.Minutes minutes
+</td>
+<td> @last24hoursAtAll.Hours hours @last24hoursAtAll.Minutes minutes </td>
+<td> @last7daysAtAll.Hours hours @last7daysAtAll.Minutes minutes </td>
+<td> @((int)last30daysAtAll.TotalHours) hours @last30daysAtAll.Minutes minutes </td>
+<td></td>
+        </tr>
+
+
+        <tr class="table-warning">
+            @foreach (var item in Model.TimeRecordList.Where(x => x.EndTime == null))
+{
+    <td><b>Running timer</b></td>  
+    <td colspan="2"> started at @item.StartTime </td>
+    <td colspan="2"></td>
+    <td><a asp-controller="MyTime" asp-action="RunningTimer" asp-route-id="@item.Id">Get in</a></td>  
+}
+        </tr>
+
+
+        @foreach (var item in Model.ProjectList)
+        {
+            TimeSpan last24hours = default;
+            TimeSpan last7days = default;
+            TimeSpan last30days = default;
+
+            @foreach (var item2 in Model.TimeRecordList.Where(x => x.ProjectId == @item.Id))
+            {
+
+                if (item2.EndTime != null)
+                {
+                    if (DateTime.Now - item2.StartTime < time24)
+                    {
+                        last24hours += (DateTime)item2.EndTime - (DateTime)item2.StartTime;
+                    }
+                }
+
+                if (item2.EndTime != null)
+                {
+                    if (DateTime.Now - item2.StartTime < time7D)
+                    {
+                        last7days += (DateTime)item2.EndTime - (DateTime)item2.StartTime;
+                    }
+                }
+                if (item2.EndTime != null)
+                {
+                    if (DateTime.Now - item2.StartTime < time30D)
+                    {
+                        last30days += (DateTime)item2.EndTime - (DateTime)item2.StartTime;
+                    }
+                }
+            }
+
+
+
+            <tr>
+                <th>@item.Name</th>
+                <td>NO DATA</td>
+
+                <td> @last24hours.Hours hours @last24hours.Minutes minutes </td>
+                <td> @((int)last7days.TotalHours) hours @last7days.Minutes minutes </td>
+                <td> @((int)last30days.TotalHours) hours @last30days.Minutes minutes </td>
+                <td> <a asp-controller="MyTime" asp-action="ProjectView" asp-route-id="@item.Id">enter project</a></td>
+            </tr>
+        }
+
+
+    </tbody>
+
+
+</table>
+<div><a asp-controller="MyTime" asp-action="NewTimer">New timer</a><br><br></div>

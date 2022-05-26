@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Article>
+
+<h1><b>@ViewBag.CategoryName</b></h1>
+<hr>
+
+
+@foreach (var item in Model)
+{
+    <div>
+        <h4>
+            <b>
+                <a asp-controller="Article" asp-action="Read" asp-route-id="@item.Id">@item.Title</a>
+                <a asp-controller="Article" asp-action="Edit" asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path">Edit</a>
+            </b>
+        </h4>
+    </div>
+    <div>@item.ShortText</div>
+    <hr />
+}
+
+@if (User.IsInRole("admin"))
+{
+        <div>
+        <a asp-controller="Category" asp-action="AddEdit" asp-route-returnUrl="@Context.Request.Path">Add</a> |
+        <a asp-controller="Category" asp-action="AddEdit" asp-route-id="@ViewBag.CategoryId" asp-route-returnUrl="@Context.Request.Path">Edit</a>
+        </div>
+}

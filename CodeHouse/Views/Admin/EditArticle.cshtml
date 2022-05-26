@@ -1,0 +1,38 @@
+﻿@model Article
+
+<form asp-action="EditArticle" asp-controller="Admin">
+    <div class="form-group">
+        <label asp-for="Title" class="control-label"><b>Title</b></label>
+        <input type="text" asp-for="Title" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ShortText" class="control-label"><b>Short Text</b></label>
+        <textarea rows="10" placeholder="Введите сообщение" type="text" asp-for="ShortText" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="Text" class="control-label"><b>Main text</b></label>
+        <textarea rows="10" placeholder="Введите сообщение" type="text" asp-for="Text" class="form-control"></textarea>
+    </div>
+
+@*    <select asp-for="CategoryId">
+        <option>Select category</option>
+        @foreach (var item in ViewBag.Categories)
+        {
+            @if (item.ParentCategoryId != null) {<option value="@item.Id">@item.Name</option>}
+        }
+    </select>*@
+
+    <div class="form-group">
+        <input type="submit" value="Отправить" class="btn btn-default" />
+    </div>
+</form>
+
+<xmp>
+<xmp>
+<div class="alert alert-success" role="alert">
+<b>[C# CODE]</b><hr><pre>
+code
+</pre>
+</div>
+</xmp>
+</xmp>

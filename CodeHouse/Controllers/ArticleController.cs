@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CodeHouse.Controllers
 {
-    [Authorize]
+
     public class ArticleController : Controller
     {
 
@@ -78,6 +78,7 @@ namespace CodeHouse.Controllers
             if (!string.IsNullOrEmpty(returnUrl)) { return LocalRedirect(returnUrl); }
             return RedirectToAction("Index");
         }
+
         public void AddNewPartialPage(int id, string[] title, string[] content)
         {
             List<ArticlePartial> model = new List<ArticlePartial>();
@@ -86,6 +87,7 @@ namespace CodeHouse.Controllers
             dbContext.AddRange(model);
             dbContext.SaveChanges();
         }
+
         public void DeletePartialContent(int id, int[] deleteIds)
         {
             List<ArticlePartial> modelList = dbContext.ArticlePartials.Where(x => x.ArticleId == id).ToList();
@@ -98,6 +100,7 @@ namespace CodeHouse.Controllers
             dbContext.RemoveRange(modelToDelete);
             dbContext.SaveChanges();
         }
+
         public void UpdatePartialContent(int id, string[] title, string[] content, ArticleViewModel model)
         {
 
@@ -110,6 +113,7 @@ namespace CodeHouse.Controllers
                 i++;
             }
         }
+
         public void AssignedCategoryData(Article model)
         {
             var allCategories = dbContext.Categories;
@@ -127,6 +131,7 @@ namespace CodeHouse.Controllers
             }
             ViewData["Categories"] = viewModel;
         }
+
         public void UpdateArticleCategories(string[] selectedCategories, Article model)
         {
             if (selectedCategories == null)

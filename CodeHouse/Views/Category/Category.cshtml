@@ -4,19 +4,29 @@
 <hr>
 
 
+<table class="table table-hover table-striped">
+    <thead class="table-info">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+
 @foreach (var item in Model)
 {
-    <div>
-        <h4>
-            <b>
-                <a asp-controller="Article" asp-action="Read" asp-route-id="@item.Id">@item.Title</a>
-                <a asp-controller="Article" asp-action="Edit" asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path">Edit</a>
-            </b>
-        </h4>
-    </div>
-    <div>@item.ShortText</div>
-    <hr />
+        <tr>
+            <th><a asp-controller="Article" asp-action="Read" asp-route-id="@item.Id">@item.Title</a></th>
+            <td>@item.ShortText</td>
+            <td><a asp-controller="Article" asp-action="Edit" asp-route-id="@item.Id" asp-route-returnUrl="@Context.Request.Path">Edit</a></td>
+        </tr>
 }
+    </tbody>
+</table>
+
+
+
 
 @if (User.IsInRole("admin"))
 {

@@ -8,7 +8,7 @@ using ProjectHouse.ViewModels.Project;
 
 namespace ProjectHouse.Controllers
 {
-    [Authorize]
+
     public class ProjectController : Controller
     {
         protected readonly UserContext dbContext;

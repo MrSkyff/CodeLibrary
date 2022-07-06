@@ -6,7 +6,7 @@ namespace ProjectHouse.Models.Article
     {
         public int ArticleId { get; set; }
         public int CategoryId { get; set; }
-        public ProjectHouse.Models.Article.Article Article { get; set; }
+        public Article Article { get; set; }
         public Category Category { get; set; }
     }
 }

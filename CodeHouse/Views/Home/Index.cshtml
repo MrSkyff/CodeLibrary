@@ -1,8 +1,59 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Code/Project house";
+    int runTimes = 0;
+    int zero = 0;
+    string tagOpen = "<div class=\"card-group\">";
+    string tagClose = "</div>";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p></p>
-</div>
+
+@foreach (var item in Model)
+{
+    if (item.ParentId == null)
+    {   
+        if(runTimes == 0 ) @Html.Raw(tagOpen)
+        runTimes++;
+                    
+
+                    <div class="card">
+
+                    <table class="table table-hover">
+
+                    <thead class="table-success">
+                    <tr>
+                      <th scope="col"><a asp-controller="Category" asp-action="Category" asp-route-id="@item.Id">@item.Name</a></th>
+                    </tr>
+                    </thead>
+
+
+
+                    @foreach (var item2 in Model.Where(x => x.ParentId == item.Id))
+                    {
+                     <tbody>
+                       <tr>
+                     <th scope="row"><a asp-controller="Category" asp-action="Category" asp-route-id="@item2.Id">@item2.Name</a></th>
+                      </tr>
+
+                        @foreach (var item3 in Model.Where(x3 => x3.ParentId == item2.Id))
+                        {
+
+
+                        <tr>
+                        <th><a asp-controller="Category" asp-action="Category" asp-route-id="@item3.Id">==> @item3.Name</a></th>
+                       </tr>
+                        }
+                    </tbody>
+                    }
+                </table>
+
+                </div>
+
+
+     
+
+                @if(runTimes == 3) { @Html.Raw(tagClose) <br><div style="display:none;">@(runTimes = zero);</div>  }; 
+                
+    }
+}

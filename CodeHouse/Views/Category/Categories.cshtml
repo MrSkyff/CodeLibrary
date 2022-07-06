@@ -1,49 +1,59 @@
 ﻿@model IEnumerable<Category>
+
 @{
-    var article = ViewBag.ArticleData as IEnumerable<Article>;
-
+    ViewData["Title"] = "Code/Project house";
+    int runTimes = 0;
+    int zero = 0;
+    string tagOpen = "<div class=\"card-group\">";
+    string tagClose = "</div>";
 }
-
 
 
 @foreach (var item in Model)
 {
     if (item.ParentId == null)
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th> <a asp-controller="Category" asp-action="Category" asp-route-id="@item.Id">@item.Name</a> </th>
-                    <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th><th></th>
-                    </th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
-                </tr>
-            </thead>
-            <tbody>
+    {   
+        if(runTimes == 0 ) @Html.Raw(tagOpen)
+        runTimes++;
+                    
 
+                    <div class="card">
 
-                @foreach (var item2 in Model.Where(x => x.ParentId == item.Id))
-                {
+                    <table class="table table-hover">
+
+                    <thead class="table-success">
                     <tr>
-                        <th scope="row">
-                            <a asp-controller="Category" asp-action="Category" asp-route-id="@item2.Id">@item2.Name</a>
-                        </th>
+                      <th scope="col"><a asp-controller="Category" asp-action="Category" asp-route-id="@item.Id">@item.Name</a></th>
+                    </tr>
+                    </thead>
+
+
+
+                    @foreach (var item2 in Model.Where(x => x.ParentId == item.Id))
+                    {
+                     <tbody>
+                       <tr>
+                     <th scope="row"><a asp-controller="Category" asp-action="Category" asp-route-id="@item2.Id">@item2.Name</a></th>
+                      </tr>
 
                         @foreach (var item3 in Model.Where(x3 => x3.ParentId == item2.Id))
                         {
-                            <td>
 
-                                <a asp-controller="Category" asp-action="Category" asp-route-id="@item3.Id">@item3.Name</a>
-                            </td>
-                            <td></td>
+
+                        <tr>
+                        <th><a asp-controller="Category" asp-action="Category" asp-route-id="@item3.Id">==> @item3.Name</a></th>
+                       </tr>
                         }
-                    </tr>
-                }
-            </tbody>
-        </table>
+                    </tbody>
+                    }
+                </table>
+
+                </div>
+
+
+     
+
+                @if(runTimes == 3) { @Html.Raw(tagClose) <br><div style="display:none;">@(runTimes = zero);</div>  }; 
+                
     }
 }
-
-
-
-
-

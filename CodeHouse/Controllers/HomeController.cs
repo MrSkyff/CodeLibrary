@@ -1,4 +1,5 @@
-﻿using CodeHouse.Models;
+﻿using CodeHouse.Data;
+using CodeHouse.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,10 +14,10 @@ namespace CodeHouse.Controllers
 {
     public class HomeController : Controller
     {
-
-        public HomeController()
+        private UserContext userContex { get; set; }
+        public HomeController(UserContext userContex)
         {
-            
+            this.userContex = userContex;
         }
 
         public IActionResult Page()
@@ -34,7 +35,7 @@ namespace CodeHouse.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(userContex.Categories);
         }
 
         [Authorize]

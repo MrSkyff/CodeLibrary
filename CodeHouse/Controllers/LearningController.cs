@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ProjectHouse.Controllers
 {
-    [Authorize]
+
     public class LearningController : Controller
     {
         private readonly UserContext dbContext;
